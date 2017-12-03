@@ -13,7 +13,6 @@ use Mockery;
 class SibalaComparerTest extends TestCase
 {
     /**
-     * 1
      * @test
      * @testdox 沒點比沒點
      * @covers \JoeyDojo\SibalaComparer::compare()
@@ -32,7 +31,6 @@ class SibalaComparerTest extends TestCase
     }
 
     /**
-     * 2
      * @test
      * @testdox 沒點比一色
      * @covers \JoeyDojo\SibalaComparer::compare()
@@ -51,7 +49,6 @@ class SibalaComparerTest extends TestCase
     }
 
     /**
-     * 3
      * @test
      * @testdox 有點比沒點
      * @covers \JoeyDojo\SibalaComparer::compare()
@@ -70,7 +67,6 @@ class SibalaComparerTest extends TestCase
     }
 
     /**
-     * 4
      * @test
      * @testdox 一色比一色
      * @covers \JoeyDojo\SibalaComparer::compare()
@@ -91,7 +87,6 @@ class SibalaComparerTest extends TestCase
     }
 
     /**
-     *
      * @test
      * @testdox 有點比一色
      * @covers \JoeyDojo\SibalaComparer::compare()
@@ -110,7 +105,6 @@ class SibalaComparerTest extends TestCase
     }
 
     /**
-     * 5
      * @test
      * @testdox 有點比有點，點數不同
      * @covers \JoeyDojo\SibalaComparer::compare()
@@ -131,7 +125,6 @@ class SibalaComparerTest extends TestCase
     }
 
     /**
-     * 6
      * @test
      * @testdox 有點比有點，點數相同
      * @covers \JoeyDojo\SibalaComparer::compare()
