@@ -2,17 +2,25 @@
 
 namespace Tests;
 
-use PHPUnit\Util\Test;
 
-class DiceTest extends Test
+use JoeyDojo\Dice;
+use PHPUnit\Framework\TestCase;
+
+class DiceTest extends TestCase
 {
     protected $dice;
     
+    /**
+     * @test
+     * @group DiceTest
+     */
     public function testGetUniqueCount()
     {
-        $input = [2,2,2,2];
-        $act = $this->dice = new Dice($input);
+        $input = [2, 2, 2, 2];
+        $this->dice = new Dice($input);
         
-        $this->assertSame($act , 1);
+        $act = $this->dice->getUniqueCount();
+        
+        $this->assertEquals($act, 1);
     }
 }

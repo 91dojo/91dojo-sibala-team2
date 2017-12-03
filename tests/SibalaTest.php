@@ -2,23 +2,27 @@
 
 namespace Tests;
 
+use JoeyDojo\Sibala;
+use PHPUnit\Framework\TestCase;
 
 
-use PHPUnit\Util\Test;
-
-class SibalaTest extends Test
+class SibalaTest extends TestCase
 {
     protected $sibala;
     
+    /**
+     * @test
+     * @grpup SibalaTest
+     */
     public function testResultSamePoints()
     {
-        $input = [2,2,2,2];
+        $input = [2, 2, 2, 2];
         
         $this->sibala = new Sibala($input);
         
         $act = $this->sibala->getState();
         
-        $this->assertThat($act, Sibala::SAME_POINTS);
+        $this->assertEquals($act, Sibala::SAME_POINTS);
         
     }
 }

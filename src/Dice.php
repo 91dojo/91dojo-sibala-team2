@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace JoeyDojo;
 
 class Dice
 {
@@ -10,5 +10,14 @@ class Dice
      */
     public function __construct($input)
     {
+        $this->dice = $input;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getUniqueCount()
+    {
+        return count(array_unique($this->dice));
     }
 }

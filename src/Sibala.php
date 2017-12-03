@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace JoeyDojo;
 
 class Sibala
 {
@@ -22,6 +22,6 @@ class Sibala
     public function getState()
     {
         $uniqueCount = $this->dice->getUniqueCount();
-        return $this::SAME_COLOR;
+        return $this::SAME_POINTS;
     }
 }
