@@ -39,4 +39,23 @@ class Sibala
         }
     }
     
+    public function output()
+    {
+        if ($this->getState() === SELF::NO_POINTS) {
+            return "No Points";
+        }
+        if ($this->getState() === SELF::SAME_POINTS) {
+            return "Same Color";
+        }
+    }
+    
+    public function getMaxNumber()
+    {
+        if ($this->getState() === SELF::NO_POINTS) {
+            return 0;
+        }
+        if ($this->getState() === SELF::SAME_POINTS) {
+            return $this->dice->getNumber()[0];
+        }
+    }
 }

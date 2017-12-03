@@ -27,4 +27,9 @@ class Dice
     {
         return $this->dice;
     }
+    
+    public function groupDice()
+    {
+    
+    }
 }
