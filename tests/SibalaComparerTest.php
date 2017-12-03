@@ -58,14 +58,15 @@ class SibalaComparerTest extends TestCase
      */
     public function 有點比沒點()
     {
-        $x = new Sibala([2, 2, 1, 3]);
-        $y = new Sibala([1, 2, 3, 4]);
+        $x = Mockery::mock(Sibala::class, [2, 2, 1, 3]);
+        $y = Mockery::mock(Sibala::class, [1, 2, 3, 4]);
+        $x->shouldReceive('getState')->once()->andReturn(1);
+        $y->shouldReceive('getState')->once()->andReturn(0);
         $target = new SibalaComparer($x, $y);
-        $expected = '';
 
         $actual = $target->compare();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertTrue(($actual > 0));
     }
 
     /**
