@@ -32,13 +32,16 @@ class SibalaComparer
         $this->y = $y;
     }
 
+    /**
+     * @return int|mixed
+     */
     public function compare()
     {
-        if ($this->x->getState() === $this->y->getState() && $this->x->getState() == 2) {
+        if ($this->sameColor()) {
             return $this->lut[$this->x->getMaxNumber()] - $this->lut[$this->y->getMaxNumber()];
         }
 
-        if ($this->x->getState() === $this->y->getState() && $this->x->getState() == 1) {
+        if ($this->bothHasPoint()) {
             $point = $this->x->getPoints() - $this->y->getPoints();
             if ($point == 0) {
                 return ($this->x->getMaxNumber() - $this->y->getMaxNumber());
@@ -48,5 +51,21 @@ class SibalaComparer
         }
 
         return $this->x->getState() - $this->y->getState();
+    }
+
+    /**
+     * @return bool
+     */
+    private function sameColor() : bool
+    {
+        return ($this->x->getState() === $this->y->getState() && $this->x->getState() == 2);
+    }
+
+    /**
+     * @return bool
+     */
+    private function bothHasPoint() : bool
+    {
+        return ($this->x->getState() === $this->y->getState() && $this->x->getState() == 1);
     }
 }
