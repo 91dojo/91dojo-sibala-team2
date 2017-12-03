@@ -38,6 +38,10 @@ class SibalaComparer
             return $this->lut[$this->x->getMaxNumber()] - $this->lut[$this->y->getMaxNumber()];
         }
 
+        if ($this->x->getState() === $this->y->getState() && $this->x->getState() == 1) {
+            return ($this->x->getPoints() - $this->y->getPoints());
+        }
+
         return $this->x->getState() - $this->y->getState();
     }
 }
