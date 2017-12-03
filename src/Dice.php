@@ -30,6 +30,6 @@ class Dice
     
     public function groupDice()
     {
-    
+        return array_count_values($this->dice);
     }
 }
