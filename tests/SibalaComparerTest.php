@@ -81,6 +81,8 @@ class SibalaComparerTest extends TestCase
         $y = Mockery::mock(Sibala::class, [4, 4, 4, 4]);
         $x->shouldReceive('getState')->once()->andReturn(2);
         $y->shouldReceive('getState')->once()->andReturn(2);
+        $x->shouldReceive('getMaxNumber')->once()->andReturn(2);
+        $y->shouldReceive('getMaxNumber')->once()->andReturn(4);
         $target = new SibalaComparer($x, $y);
 
         $actual = $target->compare();
@@ -96,14 +98,15 @@ class SibalaComparerTest extends TestCase
      */
     public function 有點比一色()
     {
-        $x = new Sibala([]);
-        $y = new Sibala([]);
+        $x = Mockery::mock(Sibala::class, [2, 2, 1, 3]);
+        $y = Mockery::mock(Sibala::class, [4, 4, 4, 4]);
+        $x->shouldReceive('getState')->once()->andReturn(1);
+        $y->shouldReceive('getState')->once()->andReturn(2);
         $target = new SibalaComparer($x, $y);
-        $expected = '';
 
         $actual = $target->compare();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertTrue(($actual < 0));
     }
 
     /**
@@ -114,14 +117,15 @@ class SibalaComparerTest extends TestCase
      */
     public function 有點比有點，點數不同()
     {
-        $x = new Sibala([2, 2, 1, 3]);
-        $y = new Sibala([5, 5, 3, 4]);
+        $x = Mockery::mock(Sibala::class, [2, 2, 1, 3]);
+        $y = Mockery::mock(Sibala::class, [5, 5, 3, 4]);
+        $x->shouldReceive('getState')->once()->andReturn(2);
+        $y->shouldReceive('getState')->once()->andReturn(2);
         $target = new SibalaComparer($x, $y);
-        $expected = '';
 
         $actual = $target->compare();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertTrue(($actual < 0));
     }
 
     /**
@@ -132,13 +136,14 @@ class SibalaComparerTest extends TestCase
      */
     public function 有點比有點，點數相同()
     {
-        $x = new Sibala([2, 2, 1, 4]);
-        $y = new Sibala([5, 5, 2, 3]);
+        $x = Mockery::mock(Sibala::class, [2, 2, 1, 4]);
+        $y = Mockery::mock(Sibala::class, [5, 5, 2, 3]);
+        $x->shouldReceive('getState')->once()->andReturn(2);
+        $y->shouldReceive('getState')->once()->andReturn(2);
         $target = new SibalaComparer($x, $y);
-        $expected = '';
 
         $actual = $target->compare();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertTrue(($actual > 0));
     }
 }
