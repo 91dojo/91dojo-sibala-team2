@@ -77,14 +77,15 @@ class SibalaComparerTest extends TestCase
      */
     public function 一色比一色()
     {
-        $x = new Sibala([2, 2, 2, 2]);
-        $y = new Sibala([4, 4, 4, 4]);
+        $x = Mockery::mock(Sibala::class, [2, 2, 2, 2]);
+        $y = Mockery::mock(Sibala::class, [4, 4, 4, 4]);
+        $x->shouldReceive('getState')->once()->andReturn(2);
+        $y->shouldReceive('getState')->once()->andReturn(2);
         $target = new SibalaComparer($x, $y);
-        $expected = '';
 
         $actual = $target->compare();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertTrue(($actual < 0));
     }
 
     /**
