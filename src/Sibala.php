@@ -24,4 +24,9 @@ class Sibala
         $uniqueCount = $this->dice->getUniqueCount();
         return $this::SAME_POINTS;
     }
+    
+    public function getPoint()
+    {
+        return 2;
+    }
 }
