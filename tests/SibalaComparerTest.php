@@ -140,8 +140,12 @@ class SibalaComparerTest extends TestCase
     {
         $x = Mockery::mock(Sibala::class, [2, 2, 1, 4]);
         $y = Mockery::mock(Sibala::class, [5, 5, 2, 3]);
-        $x->shouldReceive('getState')->once()->andReturn(2);
-        $y->shouldReceive('getState')->once()->andReturn(2);
+        $x->shouldReceive('getState')->once()->andReturn(1);
+        $y->shouldReceive('getState')->once()->andReturn(1);
+        $x->shouldReceive('getPoints')->once()->andReturn(5);
+        $y->shouldReceive('getPoints')->once()->andReturn(5);
+        $x->shouldReceive('getMaxNumber')->once()->andReturn(4);
+        $y->shouldReceive('getMaxNumber')->once()->andReturn(3);
         $target = new SibalaComparer($x, $y);
 
         $actual = $target->compare();

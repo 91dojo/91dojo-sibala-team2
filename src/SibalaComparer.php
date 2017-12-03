@@ -39,7 +39,12 @@ class SibalaComparer
         }
 
         if ($this->x->getState() === $this->y->getState() && $this->x->getState() == 1) {
-            return ($this->x->getPoints() - $this->y->getPoints());
+            $point = $this->x->getPoints() - $this->y->getPoints();
+            if ($point == 0) {
+                return ($this->x->getMaxNumber() - $this->y->getMaxNumber());
+            } else {
+                return $point;
+            }
         }
 
         return $this->x->getState() - $this->y->getState();
