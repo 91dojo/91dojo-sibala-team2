@@ -8,7 +8,7 @@ class Sibala
     Const NO_POINTS = 0;
     Const N_POINTS = 1;
     protected $dice;
-    
+
     /**
      * Sibala constructor.
      * @param array $input
@@ -17,17 +17,17 @@ class Sibala
     {
         $this->dice = new Dice($input);
     }
-    
+
     public function getState()
     {
         $uniqueCount = $this->dice->getUniqueCount();
-        
+
         if ($uniqueCount === 4) {
             return $this::NO_POINTS;
         }
         return $this::SAME_POINTS;
     }
-    
+
     public function getPoints()
     {
         if ($this->getState() === SELF::NO_POINTS) {
@@ -38,7 +38,7 @@ class Sibala
             return $this->dice->getNumber()[0];
         }
     }
-    
+
     public function output()
     {
         if ($this->getState() === SELF::NO_POINTS) {
@@ -48,7 +48,7 @@ class Sibala
             return "Same Color";
         }
     }
-    
+
     public function getMaxNumber()
     {
         if ($this->getState() === SELF::NO_POINTS) {
