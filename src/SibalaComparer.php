@@ -26,6 +26,10 @@ class SibalaComparer
             return 0;
         }
 
+        if ($this->x->getState() == 0 && $this->y->getState() == 2) {
+            return -1;
+        }
+
         return '';
     }
 }
