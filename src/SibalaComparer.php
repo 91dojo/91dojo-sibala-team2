@@ -37,19 +37,48 @@ class SibalaComparer
      */
     public function compare()
     {
-        if ($this->x->state !== $this->y->state) {
-            return $this->x->state - $this->y->state;
-        } else {
+        if ($this->isSameState()) {
             if ($this->x->state === Sibala::NO_POINTS) {
-                return 0;
+                return $this->compareResultWhenNoPoints();
             } elseif ($this->x->state === Sibala::SAME_POINTS) {
-                return $this->lut[$this->x->getMaxNumber()] - $this->lut[$this->y->getMaxNumber()];
+                return $this->compareResultWhenSamePoints();
             } else {
-                if ($this->x->points === $this->y->points) {
-                    return $this->x->maxNumber - $this->y->maxNumber;
-                }
-                return $this->x->points - $this->y->points;
+                return $this->compareResultWhenNormalPoints();
             }
+        } else {
+            return $this->x->state - $this->y->state;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    private function isSameState(): bool
+    {
+        return $this->x->state === $this->y->state;
+    }
+
+    /**
+     * @return int
+     */
+    private function compareResultWhenNoPoints(): int
+    {
+        return 0;
+    }
+
+    private function compareResultWhenSamePoints()
+    {
+        return $this->lut[$this->x->maxNumber] - $this->lut[$this->y->maxNumber];
+    }
+
+    /**
+     * @return mixed
+     */
+    private function compareResultWhenNormalPoints()
+    {
+        if ($this->x->points === $this->y->points) {
+            return $this->x->maxNumber - $this->y->maxNumber;
+        }
+        return $this->x->points - $this->y->points;
     }
 }
