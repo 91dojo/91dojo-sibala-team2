@@ -44,14 +44,13 @@ class SibalaComparer
      */
     private function getComparer()
     {
-        if ($this->x->state === Sibala::NO_POINTS) {
-            $comparer = new NoPointsComparer();
-        } elseif ($this->x->state === Sibala::SAME_POINTS) {
-            $comparer = new SamePointComparer();
-        } else {
-            $comparer = new NormalPointsComparer();
-        }
-        return $comparer;
+        $comparerLookup = [
+            Sibala::NO_POINTS => new NoPointsComparer(),
+            Sibala::N_POINTS => new NormalPointsComparer(),
+            Sibala::SAME_POINTS => new SamePointComparer(),
+        ];
+
+        return $comparerLookup[$this->x->state];
     }
 
     /**
