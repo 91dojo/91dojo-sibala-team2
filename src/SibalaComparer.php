@@ -37,35 +37,19 @@ class SibalaComparer
      */
     public function compare()
     {
-        if ($this->sameColor()) {
-            return $this->lut[$this->x->getMaxNumber()] - $this->lut[$this->y->getMaxNumber()];
-        }
-
-        if ($this->bothHasPoint()) {
-            $point = $this->x->getPoints() - $this->y->getPoints();
-            if ($point == 0) {
-                return ($this->x->getMaxNumber() - $this->y->getMaxNumber());
+        if ($this->x->state !== $this->y->state) {
+            return $this->x->state - $this->y->state;
+        } else {
+            if ($this->x->state === Sibala::NO_POINTS) {
+                return 0;
+            } elseif ($this->x->state === Sibala::SAME_POINTS) {
+                return $this->lut[$this->x->getMaxNumber()] - $this->lut[$this->y->getMaxNumber()];
             } else {
-                return $point;
+                if ($this->x->points === $this->y->points) {
+                    return $this->x->maxNumber - $this->y->maxNumber;
+                }
+                return $this->x->points - $this->y->points;
             }
         }
-
-        return $this->x->getState() - $this->y->getState();
-    }
-
-    /**
-     * @return bool
-     */
-    private function sameColor() : bool
-    {
-        return ($this->x->getState() === $this->y->getState() && $this->x->getState() == 2);
-    }
-
-    /**
-     * @return bool
-     */
-    private function bothHasPoint() : bool
-    {
-        return ($this->x->getState() === $this->y->getState() && $this->x->getState() == 1);
     }
 }
