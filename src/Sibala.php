@@ -33,27 +33,25 @@ class Sibala
      */
     private function getHandler()
     {
-        $state = $this->getState();
-        switch ($state) {
-            case Sibala::SAME_POINTS:
-                return new SamePointHandler($this);
-            case Sibala::NO_POINTS:
-                return new NoPointsHandler($this);
-            case Sibala::N_POINTS:
-                return new NormalPointsHandler($this);
-        }
+        $handlerLookup = [
+            Sibala::SAME_POINTS => new SamePointHandler($this),
+            Sibala::NO_POINTS => new NoPointsHandler($this),
+            Sibala::N_POINTS => new NormalPointsHandler($this),
+        ];
+
+        return $handlerLookup[$this->getState()];
     }
 
     public function getState()
     {
-        $maxCountOfSamePoint = collect($this->dice->groupDice())->max();
-        if ($maxCountOfSamePoint === 4) {
-            return $this::SAME_POINTS;
-        } else if ($maxCountOfSamePoint === 3 || $maxCountOfSamePoint === 1) {
-            return $this::NO_POINTS;
-        }
+        $stateLookup = [
+            4 => $this::SAME_POINTS,
+            3 => $this::NO_POINTS,
+            2 => $this::N_POINTS,
+            1 => $this::NO_POINTS,
+        ];
 
-        return $this::N_POINTS;
+        return $stateLookup[collect($this->dice->groupDice())->max()];
     }
 
     public function getMaxNumber()
