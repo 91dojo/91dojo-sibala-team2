@@ -7,6 +7,10 @@ class Sibala
     Const SAME_POINTS = 2;
     Const NO_POINTS = 0;
     Const N_POINTS = 1;
+    public $state;
+    public $points;
+    public $output;
+    public $maxNumber;
     protected $dice;
 
     /**
@@ -16,18 +20,32 @@ class Sibala
     public function __construct($input)
     {
         $this->dice = new Dice($input);
+        $this->initializeStates();
     }
 
-    public function output()
+    private function initializeStates()
     {
-        if ($this->getState() === SELF::NO_POINTS) {
-            return "No Points";
+        $state = $this->getState();
+        switch ($state) {
+            case Sibala::SAME_POINTS:
+                $this->state = Sibala::SAME_POINTS;
+                $this->points = $this->getPoints();
+                $this->maxNumber = $this->getMaxNumber();
+                $this->output = $this->output();
+                break;
+            case Sibala::NO_POINTS:
+                $this->state = Sibala::NO_POINTS;
+                $this->points = $this->getPoints();
+                $this->maxNumber = $this->getMaxNumber();
+                $this->output = $this->output();
+                break;
+            case Sibala::N_POINTS:
+                $this->state = Sibala::N_POINTS;
+                $this->points = $this->getPoints();
+                $this->maxNumber = $this->getMaxNumber();
+                $this->output = $this->output();
+                break;
         }
-        if ($this->getState() === SELF::SAME_POINTS) {
-            return "Same Color";
-        }
-
-        return $this->getOutputWhenNormalPoints();
     }
 
     public function getState()
@@ -40,20 +58,6 @@ class Sibala
         }
 
         return $this::N_POINTS;
-    }
-
-    /**
-     * @return string
-     */
-    private function getOutputWhenNormalPoints(): string
-    {
-        if ($this->getPoints() === 3) {
-            return "BG";
-        } elseif ($this->getPoints() === 12) {
-            return "Sibala";
-        }
-
-        return $this->getPoints() . " Points";
     }
 
     public function getPoints()
@@ -105,7 +109,6 @@ class Sibala
         return $this->getMaxNumberWhenNormalPoints();
     }
 
-
     /**
      * @return int|mixed
      */
@@ -127,5 +130,31 @@ class Sibala
         }
 
         return 0;
+    }
+
+    public function output()
+    {
+        if ($this->getState() === SELF::NO_POINTS) {
+            return "No Points";
+        }
+        if ($this->getState() === SELF::SAME_POINTS) {
+            return "Same Color";
+        }
+
+        return $this->getOutputWhenNormalPoints();
+    }
+
+    /**
+     * @return string
+     */
+    private function getOutputWhenNormalPoints(): string
+    {
+        if ($this->getPoints() === 3) {
+            return "BG";
+        } elseif ($this->getPoints() === 12) {
+            return "Sibala";
+        }
+
+        return $this->getPoints() . " Points";
     }
 }
