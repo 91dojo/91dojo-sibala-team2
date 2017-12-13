@@ -19,15 +19,9 @@ class SibalaComparerTest extends TestCase
      */
     public function 沒點比沒點()
     {
-        $x = Mockery::mock(Sibala::class, [2, 1, 3, 4]);
-        $y = Mockery::mock(Sibala::class, [3, 4, 5, 6]);
-        $x->shouldReceive('getState')->once()->andReturn(0);
-        $y->shouldReceive('getState')->once()->andReturn(0);
-        $target = new SibalaComparer($x, $y);
-
-        $actual = $target->compare();
-
-        $this->assertTrue(($actual === 0));
+        $x = new Sibala([2, 1, 3, 4]);
+        $y = new Sibala([3, 4, 5, 6]);
+        $this->firstOneShouldBeEqualToSecond($x, $y);
     }
 
     /**
@@ -37,15 +31,10 @@ class SibalaComparerTest extends TestCase
      */
     public function 沒點比一色()
     {
-        $x = Mockery::mock(Sibala::class, [2, 1, 3, 4]);
-        $y = Mockery::mock(Sibala::class, [2, 2, 2, 2]);
-        $x->shouldReceive('getState')->once()->andReturn(0);
-        $y->shouldReceive('getState')->once()->andReturn(2);
-        $target = new SibalaComparer($x, $y);
+        $x = new Sibala([2, 1, 3, 4]);
+        $y = new Sibala([2, 2, 2, 2]);
 
-        $actual = $target->compare();
-
-        $this->assertTrue(($actual < 0));
+        $this->firstOneShouldBeSmallerThanSecond($x, $y);
     }
 
     /**
@@ -55,15 +44,9 @@ class SibalaComparerTest extends TestCase
      */
     public function 有點比沒點()
     {
-        $x = Mockery::mock(Sibala::class, [2, 2, 1, 3]);
-        $y = Mockery::mock(Sibala::class, [1, 2, 3, 4]);
-        $x->shouldReceive('getState')->once()->andReturn(1);
-        $y->shouldReceive('getState')->once()->andReturn(0);
-        $target = new SibalaComparer($x, $y);
-
-        $actual = $target->compare();
-
-        $this->assertTrue(($actual > 0));
+        $x = new Sibala([2, 2, 1, 3]);
+        $y = new Sibala([1, 2, 3, 4]);
+        $this->firstOneShouldBeLargerThanSecond($x, $y);
     }
 
     /**
@@ -73,17 +56,9 @@ class SibalaComparerTest extends TestCase
      */
     public function 一色比一色()
     {
-        $x = Mockery::mock(Sibala::class, [2, 2, 2, 2]);
-        $y = Mockery::mock(Sibala::class, [4, 4, 4, 4]);
-        $x->shouldReceive('getState')->once()->andReturn(2);
-        $y->shouldReceive('getState')->once()->andReturn(2);
-        $x->shouldReceive('getMaxNumber')->once()->andReturn(2);
-        $y->shouldReceive('getMaxNumber')->once()->andReturn(4);
-        $target = new SibalaComparer($x, $y);
-
-        $actual = $target->compare();
-
-        $this->assertTrue(($actual < 0));
+        $x = new Sibala([2, 2, 2, 2]);
+        $y = new Sibala([4, 4, 4, 4]);
+        $this->firstOneShouldBeSmallerThanSecond($x, $y);
     }
 
     /**
@@ -93,15 +68,9 @@ class SibalaComparerTest extends TestCase
      */
     public function 有點比一色()
     {
-        $x = Mockery::mock(Sibala::class, [2, 2, 1, 3]);
-        $y = Mockery::mock(Sibala::class, [4, 4, 4, 4]);
-        $x->shouldReceive('getState')->once()->andReturn(1);
-        $y->shouldReceive('getState')->once()->andReturn(2);
-        $target = new SibalaComparer($x, $y);
-
-        $actual = $target->compare();
-
-        $this->assertTrue(($actual < 0));
+        $x = new Sibala([2, 2, 1, 3]);
+        $y = new Sibala([4, 4, 4, 4]);
+        $this->firstOneShouldBeSmallerThanSecond($x, $y);
     }
 
     /**
@@ -111,17 +80,9 @@ class SibalaComparerTest extends TestCase
      */
     public function 有點比有點，點數不同()
     {
-        $x = Mockery::mock(Sibala::class, [2, 2, 1, 3]);
-        $y = Mockery::mock(Sibala::class, [5, 5, 3, 4]);
-        $x->shouldReceive('getState')->once()->andReturn(1);
-        $y->shouldReceive('getState')->once()->andReturn(1);
-        $x->shouldReceive('getPoints')->once()->andReturn(4);
-        $y->shouldReceive('getPoints')->once()->andReturn(7);
-        $target = new SibalaComparer($x, $y);
-
-        $actual = $target->compare();
-
-        $this->assertTrue(($actual < 0));
+        $x = new Sibala([2, 2, 1, 3]);
+        $y = new Sibala([5, 5, 3, 4]);
+        $this->firstOneShouldBeSmallerThanSecond($x, $y);
     }
 
     /**
@@ -131,14 +92,41 @@ class SibalaComparerTest extends TestCase
      */
     public function 有點比有點，點數相同()
     {
-        $x = Mockery::mock(Sibala::class, [2, 2, 1, 4]);
-        $y = Mockery::mock(Sibala::class, [5, 5, 2, 3]);
-        $x->shouldReceive('getState')->once()->andReturn(1);
-        $y->shouldReceive('getState')->once()->andReturn(1);
-        $x->shouldReceive('getPoints')->once()->andReturn(5);
-        $y->shouldReceive('getPoints')->once()->andReturn(5);
-        $x->shouldReceive('getMaxNumber')->once()->andReturn(4);
-        $y->shouldReceive('getMaxNumber')->once()->andReturn(3);
+        $x = new Sibala([2, 2, 1, 4]);
+        $y = new Sibala([5, 5, 2, 3]);
+        $this->firstOneShouldBeLargerThanSecond($x, $y);
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     */
+    private function firstOneShouldBeEqualToSecond($x, $y): void
+    {
+        $target = new SibalaComparer($x, $y);
+
+        $actual = $target->compare();
+
+        $this->assertTrue(($actual === 0));
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     */
+    private function firstOneShouldBeSmallerThanSecond($x, $y): void
+    {
+        $target = new SibalaComparer($x, $y);
+        $actual = $target->compare();
+        $this->assertTrue(($actual < 0));
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     */
+    private function firstOneShouldBeLargerThanSecond($x, $y): void
+    {
         $target = new SibalaComparer($x, $y);
 
         $actual = $target->compare();
