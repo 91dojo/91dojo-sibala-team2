@@ -84,19 +84,22 @@ class Sibala
         if ($this->getState() === SELF::SAME_POINTS) {
             return $this->dice->getNumber()[0];
         }
-        
         $groupDice = $this->dice->groupDice();
         ksort($groupDice);
-        //
-        if (count($groupDice) >= 2) {
+
+        if (count($groupDice) > 2) {
+            //[{3,2},{4,1},{5,1}]
             $collectGroup = collect($groupDice)->reject(function ($item) {
                 return $item > 1;
             });
-            
+
             return last(array_keys($collectGroup->toArray()));
+        } elseif (count($groupDice) == 2) {
+            //[{1,2},{3,2}]
+            return last(array_keys($groupDice));
         }
         //預設值
         return 0;
-        
+
     }
 }
