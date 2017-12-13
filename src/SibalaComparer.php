@@ -14,17 +14,6 @@ class SibalaComparer
      */
     private $y;
 
-    /**
-     * @var array
-     */
-    private $lut = [
-        1 => 6,
-        4 => 5,
-        6 => 4,
-        5 => 3,
-        3 => 2,
-        2 => 1,
-    ];
 
     public function __construct(Sibala $x, Sibala $y)
     {
@@ -39,11 +28,14 @@ class SibalaComparer
     {
         if ($this->isSameState()) {
             if ($this->x->state === Sibala::NO_POINTS) {
-                return $this->compareResultWhenNoPoints();
+                $comparer = new NoPointsComparer();
+                return $comparer->compare($this->x, $this->y);
             } elseif ($this->x->state === Sibala::SAME_POINTS) {
-                return $this->compareResultWhenSamePoints();
+                $comparer = new SamePointComparer();
+                return $comparer->compare($this->x, $this->y);
             } else {
-                return $this->compareResultWhenNormalPoints();
+                $comparer = new NormalPointsComparer();
+                return $comparer->compare($this->x, $this->y);
             }
         } else {
             return $this->x->state - $this->y->state;
@@ -56,29 +48,5 @@ class SibalaComparer
     private function isSameState(): bool
     {
         return $this->x->state === $this->y->state;
-    }
-
-    /**
-     * @return int
-     */
-    private function compareResultWhenNoPoints(): int
-    {
-        return 0;
-    }
-
-    private function compareResultWhenSamePoints()
-    {
-        return $this->lut[$this->x->maxNumber] - $this->lut[$this->y->maxNumber];
-    }
-
-    /**
-     * @return mixed
-     */
-    private function compareResultWhenNormalPoints()
-    {
-        if ($this->x->points === $this->y->points) {
-            return $this->x->maxNumber - $this->y->maxNumber;
-        }
-        return $this->x->points - $this->y->points;
     }
 }
