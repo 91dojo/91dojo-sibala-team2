@@ -50,7 +50,7 @@ class SibalaTest extends TestCase
      * @test
      * @grpup SibalaTest
      */
-    public function testNoPoints()
+    public function testNoPoints_all_point_different()
     {
         $input = [2, 1, 3, 4];
 
@@ -60,7 +60,6 @@ class SibalaTest extends TestCase
         $this->assertEquals(0, $this->sibala->getPoints());
         $this->assertEquals("No Points", $this->sibala->output());
         $this->assertEquals(0, $this->sibala->getMaxNumber());
-
     }
 
     /**
@@ -125,6 +124,21 @@ class SibalaTest extends TestCase
         $this->pointsShouldBe(3);
         $this->outputShouldBe("BG");
         $this->maxNumberShouldBe(2);
+    }
+
+    /**
+     * @test
+     * @grpup SibalaTest
+     */
+    public function testNPoints_test_6226_sibala()
+    {
+        $input = [6, 2, 2, 6];
+        $this->sibala = new Sibala($input);
+
+        $this->stateShouldBe(Sibala::N_POINTS);
+        $this->pointsShouldBe(12);
+        $this->outputShouldBe("Sibala");
+        $this->maxNumberShouldBe(6);
     }
 
 
