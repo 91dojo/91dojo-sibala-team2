@@ -21,9 +21,6 @@ class SibalaComparer
         $this->y = $y;
     }
 
-    /**
-     * @return int|mixed
-     */
     public function compare()
     {
         return $this->isSameState()
@@ -31,9 +28,6 @@ class SibalaComparer
             : $this->compareResultWhenStateIsDifferent();
     }
 
-    /**
-     * @return bool
-     */
     private function isSameState(): bool
     {
         return $this->x->state === $this->y->state;
@@ -53,9 +47,6 @@ class SibalaComparer
         return $comparerLookup[$this->x->state];
     }
 
-    /**
-     * @return mixed
-     */
     private function compareResultWhenStateIsDifferent()
     {
         return $this->x->state - $this->y->state;

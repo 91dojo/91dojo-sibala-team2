@@ -11,6 +11,9 @@ namespace JoeyDojo;
 
 class NormalPointsHandler implements IDiceHandler
 {
+    /**
+     * @var Sibala
+     */
     private $sibala;
 
     /**
@@ -81,13 +84,13 @@ class NormalPointsHandler implements IDiceHandler
      */
     private function outputWhenNormalPoints(): string
     {
-        if ($this->sibala->points === 3) {
-            return "BG";
-        } elseif ($this->sibala->points === 12) {
-            return "Sibala";
-        }
+        $specialOutput = [
+            3 => "BG",
+            12 => "Sibala",
+        ];
 
-        return $this->sibala->points . " Points";
+        $points = $this->sibala->points;
+        return array_key_exists($points, $specialOutput) ? $specialOutput[$points] : $points . " Points";
     }
 
 }
