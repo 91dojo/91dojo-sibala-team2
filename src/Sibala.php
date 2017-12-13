@@ -30,19 +30,19 @@ class Sibala
             case Sibala::SAME_POINTS:
                 $this->state = Sibala::SAME_POINTS;
                 $this->points = $this->getPointsWhenSamePoints();
-                $this->maxNumber = $this->getMaxNumber();
+                $this->maxNumber = $this->getMaxNumberWhenSamePoints();
                 $this->output = $this->outputWhenSamePoints();
                 break;
             case Sibala::NO_POINTS:
                 $this->state = Sibala::NO_POINTS;
                 $this->points = $this->getPointsWhenNoPoints();
-                $this->maxNumber = $this->getMaxNumber();
+                $this->maxNumber = $this->getMaxNumberWhenNoPoints();
                 $this->output = $this->outputWhenNoPoints();
                 break;
             case Sibala::N_POINTS:
                 $this->state = Sibala::N_POINTS;
                 $this->points = $this->getPointsWhenNormalPoints();
-                $this->maxNumber = $this->getMaxNumber();
+                $this->maxNumber = $this->getMaxNumberWhenNormalPoints();
                 $this->output = $this->outputWhenNormalPoints();
                 break;
         }
@@ -65,39 +65,9 @@ class Sibala
         return $this->dice->getNumber()[0];
     }
 
-    public function getMaxNumber()
+    private function getMaxNumberWhenSamePoints()
     {
-        if ($this->getState() === SELF::NO_POINTS) {
-            return 0;
-        }
-        if ($this->getState() === SELF::SAME_POINTS) {
-            return $this->dice->getNumber()[0];
-        }
-
-        return $this->getMaxNumberWhenNormalPoints();
-    }
-
-    /**
-     * @return int|mixed
-     */
-    private function getMaxNumberWhenNormalPoints()
-    {
-        $groupDice = $this->dice->groupDice();
-        ksort($groupDice);
-
-        if (count($groupDice) > 2) {
-            //[{3,2},{4,1},{5,1}]
-            $collectGroup = collect($groupDice)->reject(function ($item) {
-                return $item > 1;
-            });
-
-            return last(array_keys($collectGroup->toArray()));
-        } elseif (count($groupDice) == 2) {
-            //[{1,2},{3,2}]
-            return last(array_keys($groupDice));
-        }
-
-        return 0;
+        return $this->dice->getNumber()[0];
     }
 
     private function outputWhenSamePoints()
@@ -106,6 +76,11 @@ class Sibala
     }
 
     private function getPointsWhenNoPoints()
+    {
+        return 0;
+    }
+
+    private function getMaxNumberWhenNoPoints()
     {
         return 0;
     }
@@ -139,6 +114,29 @@ class Sibala
     }
 
     /**
+     * @return int|mixed
+     */
+    private function getMaxNumberWhenNormalPoints()
+    {
+        $groupDice = $this->dice->groupDice();
+        ksort($groupDice);
+
+        if (count($groupDice) > 2) {
+            //[{3,2},{4,1},{5,1}]
+            $collectGroup = collect($groupDice)->reject(function ($item) {
+                return $item > 1;
+            });
+
+            return last(array_keys($collectGroup->toArray()));
+        } elseif (count($groupDice) == 2) {
+            //[{1,2},{3,2}]
+            return last(array_keys($groupDice));
+        }
+
+        return 0;
+    }
+
+    /**
      * @return string
      */
     private function outputWhenNormalPoints(): string
@@ -150,6 +148,11 @@ class Sibala
         }
 
         return $this->points . " Points";
+    }
+
+    public function getMaxNumber()
+    {
+        return $this->maxNumber;
     }
 
     public function getPoints()
