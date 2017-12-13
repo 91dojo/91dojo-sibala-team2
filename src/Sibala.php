@@ -29,19 +29,19 @@ class Sibala
         switch ($state) {
             case Sibala::SAME_POINTS:
                 $this->state = Sibala::SAME_POINTS;
-                $this->points = $this->getPoints();
+                $this->points = $this->getPointsWhenSamePoints();
                 $this->maxNumber = $this->getMaxNumber();
                 $this->output = $this->outputWhenSamePoints();
                 break;
             case Sibala::NO_POINTS:
                 $this->state = Sibala::NO_POINTS;
-                $this->points = $this->getPoints();
+                $this->points = $this->getPointsWhenNoPoints();
                 $this->maxNumber = $this->getMaxNumber();
                 $this->output = $this->outputWhenNoPoints();
                 break;
             case Sibala::N_POINTS:
                 $this->state = Sibala::N_POINTS;
-                $this->points = $this->getPoints();
+                $this->points = $this->getPointsWhenNormalPoints();
                 $this->maxNumber = $this->getMaxNumber();
                 $this->output = $this->outputWhenNormalPoints();
                 break;
@@ -60,41 +60,9 @@ class Sibala
         return $this::N_POINTS;
     }
 
-    public function getPoints()
+    private function getPointsWhenSamePoints()
     {
-        if ($this->getState() === SELF::NO_POINTS) {
-            return 0;
-        }
-
-        if ($this->getState() === SELF::SAME_POINTS) {
-            //回傳陣列隨便的一個值 (SAME_POINTS)
-            return $this->dice->getNumber()[0];
-        }
-
-        return $this->getPointsWhenNormalPoints();
-    }
-
-    /**
-     * @return float|int
-     */
-    private function getPointsWhenNormalPoints()
-    {
-        $groupDice = $this->dice->groupDice();
-        ksort($groupDice);
-        if (count($groupDice) === 2) {
-            //2,2,4,4的情況
-            if (last($groupDice) === 2) {
-                return last(array_keys($groupDice)) * 2;
-            } else {
-                //4,4,4,2的情況
-                return collect($groupDice)->keys()->sum();
-            }
-        }
-        if (count($groupDice) === 3) {
-            return collect($groupDice)->reject(function ($item) {
-                return $item > 1;
-            })->keys()->sum();
-        }
+        return $this->dice->getNumber()[0];
     }
 
     public function getMaxNumber()
@@ -137,9 +105,37 @@ class Sibala
         return "Same Color";
     }
 
+    private function getPointsWhenNoPoints()
+    {
+        return 0;
+    }
+
     private function outputWhenNoPoints()
     {
         return "No Points";
+    }
+
+    /**
+     * @return float|int
+     */
+    private function getPointsWhenNormalPoints()
+    {
+        $groupDice = $this->dice->groupDice();
+        ksort($groupDice);
+        if (count($groupDice) === 2) {
+            //2,2,4,4的情況
+            if (last($groupDice) === 2) {
+                return last(array_keys($groupDice)) * 2;
+            } else {
+                //4,4,4,2的情況
+                return collect($groupDice)->keys()->sum();
+            }
+        }
+        if (count($groupDice) === 3) {
+            return collect($groupDice)->reject(function ($item) {
+                return $item > 1;
+            })->keys()->sum();
+        }
     }
 
     /**
@@ -147,13 +143,18 @@ class Sibala
      */
     private function outputWhenNormalPoints(): string
     {
-        if ($this->getPoints() === 3) {
+        if ($this->points === 3) {
             return "BG";
-        } elseif ($this->getPoints() === 12) {
+        } elseif ($this->points === 12) {
             return "Sibala";
         }
 
-        return $this->getPoints() . " Points";
+        return $this->points . " Points";
+    }
+
+    public function getPoints()
+    {
+        return $this->points;
     }
 
     public function output()
