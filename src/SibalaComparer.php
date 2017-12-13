@@ -26,20 +26,9 @@ class SibalaComparer
      */
     public function compare()
     {
-        if ($this->isSameState()) {
-            if ($this->x->state === Sibala::NO_POINTS) {
-                $comparer = new NoPointsComparer();
-                return $comparer->compare($this->x, $this->y);
-            } elseif ($this->x->state === Sibala::SAME_POINTS) {
-                $comparer = new SamePointComparer();
-                return $comparer->compare($this->x, $this->y);
-            } else {
-                $comparer = new NormalPointsComparer();
-                return $comparer->compare($this->x, $this->y);
-            }
-        } else {
-            return $this->x->state - $this->y->state;
-        }
+        return $this->isSameState()
+            ? $this->getComparer()->compare($this->x, $this->y)
+            : $this->compareResultWhenStateIsDifferent();
     }
 
     /**
@@ -48,5 +37,28 @@ class SibalaComparer
     private function isSameState(): bool
     {
         return $this->x->state === $this->y->state;
+    }
+
+    /**
+     * @return NoPointsComparer|NormalPointsComparer|SamePointComparer
+     */
+    private function getComparer()
+    {
+        if ($this->x->state === Sibala::NO_POINTS) {
+            $comparer = new NoPointsComparer();
+        } elseif ($this->x->state === Sibala::SAME_POINTS) {
+            $comparer = new SamePointComparer();
+        } else {
+            $comparer = new NormalPointsComparer();
+        }
+        return $comparer;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function compareResultWhenStateIsDifferent()
+    {
+        return $this->x->state - $this->y->state;
     }
 }
