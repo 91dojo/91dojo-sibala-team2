@@ -27,6 +27,49 @@ class DiceTest extends TestCase
      * @test
      * @group DiceTest
      */
+    public function testGetUniqueCount_noPoint()
+    {
+        $input = [2, 1, 4, 3];
+        $this->dice = new Dice($input);
+
+        $act = $this->dice->getUniqueCount();
+
+        $this->assertEquals($act, 4);
+    }
+
+    /**
+     * @test
+     * @group DiceTest
+     */
+    public function testGetUniqueCount_normalPoints_1pair()
+    {
+        $input = [2, 2, 4, 3];
+        $this->dice = new Dice($input);
+
+        $act = $this->dice->getUniqueCount();
+
+        $this->assertEquals($act, 3);
+    }
+
+    /**
+     * @test
+     * @group DiceTest
+     */
+    public function testGetUniqueCount_normalPoints_2pair()
+    {
+        $input = [3, 3, 4, 4];
+        $this->dice = new Dice($input);
+
+        $act = $this->dice->getUniqueCount();
+
+        $this->assertEquals($act, 2);
+    }
+
+
+    /**
+     * @test
+     * @group DiceTest
+     */
     public function testGroupDiceValueCount_sameColor()
     {
         $input = [2, 2, 2, 2];
@@ -35,5 +78,19 @@ class DiceTest extends TestCase
         $act = $this->dice->groupDice();
 
         $this->assertEquals([2 => 4], $act);
+    }
+
+    /**
+     * @test
+     * @group DiceTest
+     */
+    public function testGroupDiceValueCount_noPoint()
+    {
+        $input = [2, 3, 4, 1];
+        $this->dice = new Dice($input);
+
+        $act = $this->dice->groupDice();
+
+        $this->assertEquals([2 => 1, 3 => 1, 4 => 1, 1 => 1], $act);
     }
 }
