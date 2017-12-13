@@ -36,18 +36,11 @@ class Sibala
 
     public function getState()
     {
-        $uniqueCount = $this->dice->getUniqueCount();
-
-        $has3DicesWithSamePoint = !empty(array_where(collect($this->dice->groupDice())->toArray(), function ($item) {
-            return $item === 3;
-        }));
-
-        if ($uniqueCount === 4 || $has3DicesWithSamePoint) {
-            return $this::NO_POINTS;
-        }
-
-        if ($uniqueCount === 1) {
+        $maxCountOfSamePoint = collect($this->dice->groupDice())->max();
+        if ($maxCountOfSamePoint === 4) {
             return $this::SAME_POINTS;
+        } else if ($maxCountOfSamePoint === 3 || $maxCountOfSamePoint === 1) {
+            return $this::NO_POINTS;
         }
 
         return $this::N_POINTS;
@@ -105,6 +98,15 @@ class Sibala
         //預設值
         return 0;
 
+    }
+
+    /**
+     * @param $uniqueCount
+     * @return bool
+     */
+    private function IsSamePoints($uniqueCount): bool
+    {
+        return $uniqueCount === 1;
     }
 
     /**
