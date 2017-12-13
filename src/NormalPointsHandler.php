@@ -17,10 +17,6 @@ class NormalPointsHandler implements IDiceHandler
      */
     private $sibala;
 
-    /**
-     * NormalPointsHandler constructor.
-     * @param Sibala $this
-     */
     public function __construct($sibala)
     {
         $this->sibala = $sibala;
