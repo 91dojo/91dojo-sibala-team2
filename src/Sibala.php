@@ -38,7 +38,11 @@ class Sibala
     {
         $uniqueCount = $this->dice->getUniqueCount();
 
-        if ($uniqueCount === 4) {
+        $has3DicesWithSamePoint = !empty(array_where(collect($this->dice->groupDice())->toArray(), function ($item) {
+            return $item === 3;
+        }));
+
+        if ($uniqueCount === 4 || $has3DicesWithSamePoint) {
             return $this::NO_POINTS;
         }
 
@@ -101,5 +105,16 @@ class Sibala
         //預設值
         return 0;
 
+    }
+
+    /**
+     * @param $groupDice
+     * @return array
+     */
+    private function hasSamePointWith3Dices($groupDice): array
+    {
+        return array_where(collect($groupDice)->toArray(), function ($item) {
+            return $item === 3;
+        });
     }
 }
