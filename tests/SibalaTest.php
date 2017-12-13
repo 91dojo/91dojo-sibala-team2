@@ -116,17 +116,15 @@ class SibalaTest extends TestCase
      * @test
      * @grpup SibalaTest
      */
-    public function testNPoints_test_4_4_1_2_group()
+    public function testNPoints_test_4412_BG()
     {
         $input = [4, 4, 1, 2];
-
         $this->sibala = new Sibala($input);
 
-        $this->assertEquals(Sibala::N_POINTS, $this->sibala->getState());
-        $this->assertEquals(3, $this->sibala->getPoints());
-        $this->assertEquals("BG", $this->sibala->output());
+        $this->stateShouldBe(Sibala::N_POINTS);
+        $this->pointsShouldBe(3);
+        $this->outputShouldBe("BG");
         $this->maxNumberShouldBe(2);
-
     }
 
 
