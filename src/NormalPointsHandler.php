@@ -28,16 +28,15 @@ class NormalPointsHandler implements IDiceHandler
 
     public function setSibala(): void
     {
+        $points = $this->getPoints();
+
         $this->sibala->state = Sibala::N_POINTS;
-        $this->sibala->points = $this->getPointsWhenNormalPoints();
-        $this->sibala->maxNumber = $this->getMaxNumberWhenNormalPoints();
-        $this->sibala->output = $this->outputWhenNormalPoints();
+        $this->sibala->points = $points->sum();
+        $this->sibala->maxNumber = $points->max();
+        $this->sibala->output = $this->outputWhenNormalPoints($points->sum());
     }
 
-    /**
-     * @return float|int
-     */
-    private function getPointsWhenNormalPoints()
+    private function getPoints()
     {
         $pairPoints = collect($this->sibala->dice->groupDice())->filter(function ($x) {
             return $x == 2;
@@ -47,44 +46,20 @@ class NormalPointsHandler implements IDiceHandler
 
         return collect($this->sibala->dice->getNumber())->reject(function ($item) {
             return $item === $this->ignorePoint;
-        })->sum();
+        });
     }
 
     /**
-     * @return int|mixed
-     */
-    private function getMaxNumberWhenNormalPoints()
-    {
-        $groupDice = $this->sibala->dice->groupDice();
-        ksort($groupDice);
-
-        if (count($groupDice) > 2) {
-            //[{3,2},{4,1},{5,1}]
-            $collectGroup = collect($groupDice)->reject(function ($item) {
-                return $item > 1;
-            });
-
-            return last(array_keys($collectGroup->toArray()));
-        } elseif (count($groupDice) == 2) {
-            //[{1,2},{3,2}]
-            return last(array_keys($groupDice));
-        }
-
-        return 0;
-    }
-
-    /**
+     * @param $points
      * @return string
      */
-    private function outputWhenNormalPoints(): string
+    private function outputWhenNormalPoints($points): string
     {
         $specialOutput = [
             3 => "BG",
             12 => "Sibala",
         ];
 
-        $points = $this->sibala->points;
         return array_key_exists($points, $specialOutput) ? $specialOutput[$points] : $points . " Points";
     }
-
 }
