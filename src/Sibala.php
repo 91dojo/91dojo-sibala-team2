@@ -31,19 +31,19 @@ class Sibala
                 $this->state = Sibala::SAME_POINTS;
                 $this->points = $this->getPoints();
                 $this->maxNumber = $this->getMaxNumber();
-                $this->output = $this->output();
+                $this->output = $this->outputWhenSamePoints();
                 break;
             case Sibala::NO_POINTS:
                 $this->state = Sibala::NO_POINTS;
                 $this->points = $this->getPoints();
                 $this->maxNumber = $this->getMaxNumber();
-                $this->output = $this->output();
+                $this->output = $this->outputWhenNoPoints();
                 break;
             case Sibala::N_POINTS:
                 $this->state = Sibala::N_POINTS;
                 $this->points = $this->getPoints();
                 $this->maxNumber = $this->getMaxNumber();
-                $this->output = $this->output();
+                $this->output = $this->outputWhenNormalPoints();
                 break;
         }
     }
@@ -132,22 +132,20 @@ class Sibala
         return 0;
     }
 
-    public function output()
+    private function outputWhenSamePoints()
     {
-        if ($this->getState() === SELF::NO_POINTS) {
-            return "No Points";
-        }
-        if ($this->getState() === SELF::SAME_POINTS) {
-            return "Same Color";
-        }
+        return "Same Color";
+    }
 
-        return $this->getOutputWhenNormalPoints();
+    private function outputWhenNoPoints()
+    {
+        return "No Points";
     }
 
     /**
      * @return string
      */
-    private function getOutputWhenNormalPoints(): string
+    private function outputWhenNormalPoints(): string
     {
         if ($this->getPoints() === 3) {
             return "BG";
@@ -156,5 +154,10 @@ class Sibala
         }
 
         return $this->getPoints() . " Points";
+    }
+
+    public function output()
+    {
+        return $this->output;
     }
 }
