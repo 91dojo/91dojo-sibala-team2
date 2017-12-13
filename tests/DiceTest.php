@@ -93,4 +93,32 @@ class DiceTest extends TestCase
 
         $this->assertEquals([2 => 1, 3 => 1, 4 => 1, 1 => 1], $act);
     }
+
+    /**
+     * @test
+     * @group DiceTest
+     */
+    public function testGroupDiceValueCount_normalPoints_1_pair()
+    {
+        $input = [2, 3, 4, 2];
+        $this->dice = new Dice($input);
+
+        $act = $this->dice->groupDice();
+
+        $this->assertEquals([2 => 2, 3 => 1, 4 => 1], $act);
+    }
+
+    /**
+     * @test
+     * @group DiceTest
+     */
+    public function testGroupDiceValueCount_normalPoints_2_pair()
+    {
+        $input = [4, 2, 4, 2];
+        $this->dice = new Dice($input);
+
+        $act = $this->dice->groupDice();
+
+        $this->assertEquals([2 => 2, 4 => 2], $act);
+    }
 }
