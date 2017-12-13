@@ -27,13 +27,7 @@ class Sibala
             return "Same Color";
         }
 
-        if ($this->getPoints() === 3) {
-            return "BG";
-        } elseif ($this->getPoints() === 12) {
-            return "Sibala";
-        }
-
-        return $this->getPoints() . " Points";
+        return $this->GetOutputWhenNormalPoints();
     }
 
     public function getState()
@@ -120,5 +114,19 @@ class Sibala
         return array_where(collect($groupDice)->toArray(), function ($item) {
             return $item === 3;
         });
+    }
+
+    /**
+     * @return string
+     */
+    private function GetOutputWhenNormalPoints(): string
+    {
+        if ($this->getPoints() === 3) {
+            return "BG";
+        } elseif ($this->getPoints() === 12) {
+            return "Sibala";
+        }
+
+        return $this->getPoints() . " Points";
     }
 }
