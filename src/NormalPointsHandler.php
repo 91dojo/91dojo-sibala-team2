@@ -11,6 +11,7 @@ namespace JoeyDojo;
 
 class NormalPointsHandler implements IDiceHandler
 {
+    private $ignorePoint;
     /**
      * @var Sibala
      */
@@ -38,22 +39,15 @@ class NormalPointsHandler implements IDiceHandler
      */
     private function getPointsWhenNormalPoints()
     {
-        $groupDice = $this->sibala->dice->groupDice();
-        ksort($groupDice);
-        if (count($groupDice) === 2) {
-            //2,2,4,4的情況
-            if (last($groupDice) === 2) {
-                return last(array_keys($groupDice)) * 2;
-            } else {
-                //4,4,4,2的情況
-                return collect($groupDice)->keys()->sum();
-            }
-        }
-        if (count($groupDice) === 3) {
-            return collect($groupDice)->reject(function ($item) {
-                return $item > 1;
-            })->keys()->sum();
-        }
+        $pairPoints = collect($this->sibala->dice->groupDice())->filter(function ($x) {
+            return $x == 2;
+        })->toArray();
+
+        $this->ignorePoint = collect(array_keys($pairPoints))->min();
+
+        return collect($this->sibala->dice->getNumber())->reject(function ($item) {
+            return $item === $this->ignorePoint;
+        })->sum();
     }
 
     /**

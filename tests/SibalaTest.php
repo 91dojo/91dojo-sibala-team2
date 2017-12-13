@@ -82,9 +82,9 @@ class SibalaTest extends TestCase
      * @test
      * @grpup SibalaTest
      */
-    public function testNPoints_test_1213_1_pair()
+    public function testNPoints_test_6263_1_pair()
     {
-        $input = [1, 2, 1, 3];
+        $input = [6, 2, 6, 3];
 
         $this->sibala = new Sibala($input);
 
