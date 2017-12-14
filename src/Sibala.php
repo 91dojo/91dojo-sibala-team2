@@ -28,22 +28,14 @@ class Sibala
         $state = $this->getState();
         switch ($state) {
             case $this::NO_POINTS:
-                $this->state = $this::NO_POINTS;
-                $this->points = $this->getPointsWhenNoPoints();
-                $this->maxNumber = $this->getMaxNumberWhenNoPoints();
-                $this->output = $this->getOutputWhenNoPoints();
+                $handler = new NoPointsHandler($this);
+                $handler->setResult();
                 break;
             case $this::SAME_POINTS:
-                $this->state = $this::SAME_POINTS;
-                $this->points = $this->getPointsWhenSameColor();
-                $this->maxNumber = $this->getMaxNumberWhenSameColor();
-                $this->output = $this->getOutputWhenSameColor();
+                $this->setResultWhenSameColor();
                 break;
             case $this::N_POINTS:
-                $this->state = $this::N_POINTS;
-                $this->points = $this->getPointsWhenNormalPoints();
-                $this->maxNumber = $this->getMaxNumberWhenNormalPoints();
-                $this->output = $this->getOutputWhenNormalPoints();
+                $this->setResultWhenNormalPoints();
                 break;
         }
     }
@@ -62,28 +54,13 @@ class Sibala
         return $stateLookup[$maxCountOfSamePoint];
     }
 
-    /**
-     * @return int
-     */
-    private function getPointsWhenNoPoints(): int
-    {
-        return 0;
-    }
 
-    /**
-     * @return int
-     */
-    private function getMaxNumberWhenNoPoints(): int
+    private function setResultWhenSameColor(): void
     {
-        return 0;
-    }
-
-    /**
-     * @return string
-     */
-    private function getOutputWhenNoPoints(): string
-    {
-        return "No Points";
+        $this->state = $this::SAME_POINTS;
+        $this->points = $this->getPointsWhenSameColor();
+        $this->maxNumber = $this->getMaxNumberWhenSameColor();
+        $this->output = $this->getOutputWhenSameColor();
     }
 
     /**
@@ -108,6 +85,14 @@ class Sibala
     private function getOutputWhenSameColor(): string
     {
         return "Same Color";
+    }
+
+    private function setResultWhenNormalPoints(): void
+    {
+        $this->state = $this::N_POINTS;
+        $this->points = $this->getPointsWhenNormalPoints();
+        $this->maxNumber = $this->getMaxNumberWhenNormalPoints();
+        $this->output = $this->getOutputWhenNormalPoints();
     }
 
     /**
