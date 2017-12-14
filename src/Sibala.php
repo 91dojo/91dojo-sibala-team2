@@ -25,21 +25,27 @@ class Sibala
 
     private function initializeByStates()
     {
-        $state = $this->getState();
+        $this->getHandler($this->getState())->setResult();
+    }
+
+    /**
+     * @param $state
+     * @return NoPointsHandler|NormalPointsHandler|SameColorHandler
+     */
+    private function getHandler($state)
+    {
         switch ($state) {
             case $this::NO_POINTS:
                 $handler = new NoPointsHandler($this);
-                $handler->setResult();
                 break;
             case $this::SAME_POINTS:
                 $handler = new SameColorHandler($this);
-                $handler->setResult();
                 break;
             case $this::N_POINTS:
                 $handler = new NormalPointsHandler($this);
-                $handler->setResult();
                 break;
         }
+        return $handler;
     }
 
     public function getState()
@@ -55,7 +61,6 @@ class Sibala
 
         return $stateLookup[$maxCountOfSamePoint];
     }
-
 
     public function getPoints()
     {
