@@ -21,10 +21,10 @@ class Sibala
     public function output()
     {
         if ($this->getState() === SELF::NO_POINTS) {
-            return "No Points";
+            return $this->getOutputWhenNoPoints();
         }
         if ($this->getState() === SELF::SAME_POINTS) {
-            return "Same Color";
+            return $this->getOutputWhenSameColor();
         }
 
         return $this->getOutputWhenNormalPoints();
@@ -158,5 +158,21 @@ class Sibala
         }
         //預設值
         return 0;
+    }
+
+    /**
+     * @return string
+     */
+    private function getOutputWhenNoPoints(): string
+    {
+        return "No Points";
+    }
+
+    /**
+     * @return string
+     */
+    private function getOutputWhenSameColor(): string
+    {
+        return "Same Color";
     }
 }
