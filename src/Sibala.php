@@ -36,6 +36,11 @@ class Sibala
 
     public function getState()
     {
+        $maxCountOfSamePoint = collect($this->dice->groupDice())->max();
+        if ($maxCountOfSamePoint === 3) {
+            return $this::NO_POINTS;
+        }
+
         $uniqueCount = $this->dice->getUniqueCount();
 
         if ($uniqueCount === 4) {
