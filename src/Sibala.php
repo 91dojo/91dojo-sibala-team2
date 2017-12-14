@@ -34,18 +34,13 @@ class Sibala
      */
     private function getHandler($state)
     {
-        switch ($state) {
-            case $this::NO_POINTS:
-                $handler = new NoPointsHandler($this);
-                break;
-            case $this::SAME_POINTS:
-                $handler = new SameColorHandler($this);
-                break;
-            case $this::N_POINTS:
-                $handler = new NormalPointsHandler($this);
-                break;
-        }
-        return $handler;
+        $stateLookup = [
+            $this::NO_POINTS => new NoPointsHandler($this),
+            $this::SAME_POINTS => new SameColorHandler($this),
+            $this::N_POINTS => new NormalPointsHandler($this),
+        ];
+
+        return $stateLookup[$state];
     }
 
     public function getState()
