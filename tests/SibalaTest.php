@@ -140,6 +140,4 @@ class SibalaTest extends TestCase
         $this->outputShouldBe("Sibala");
         $this->maxNumberShouldBe(6);
     }
-
-
 }

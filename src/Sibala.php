@@ -29,6 +29,8 @@ class Sibala
 
         if ($this->getPoints() === 3) {
             return "BG";
+        } elseif ($this->getPoints() === 12) {
+            return "Sibala";
         }
 
         return $this->getPoints() . " Points";
