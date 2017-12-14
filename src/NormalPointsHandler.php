@@ -11,6 +11,7 @@ namespace JoeyDojo;
 
 class NormalPointsHandler
 {
+    private $ignorePoint;
     /**
      * @var Sibala
      */
@@ -27,56 +28,26 @@ class NormalPointsHandler
 
     public function setResult()
     {
+        $points = $this->getPoints();
+
         $this->sibala->state = Sibala::N_POINTS;
-        $this->sibala->points = $this->getPointsWhenNormalPoints();
-        $this->sibala->maxNumber = $this->getMaxNumberWhenNormalPoints();
+        $this->sibala->points = $points->sum();
+        $this->sibala->maxNumber = $points->max();
         $this->sibala->output = $this->getOutputWhenNormalPoints();
     }
 
-
-    /**
-     * @return float|int
-     */
-    private function getPointsWhenNormalPoints()
+    private function getPoints()
     {
-        $groupDice = $this->sibala->dice->groupDice();
-        ksort($groupDice);
-        if (count($groupDice) === 2) {
-            //2,2,4,4的情況
-            if (last($groupDice) === 2) {
-                return last(array_keys($groupDice)) * 2;
-            } else {
-                //4,4,4,2的情況
-                return collect($groupDice)->keys()->sum();
-            }
-        }
-        if (count($groupDice) === 3) {
-            return collect($groupDice)->reject(function ($item) {
-                return $item > 1;
-            })->keys()->sum();
-        }
-    }
+        $pairPoints = collect($this->sibala->dice->groupDice())->filter(function ($x) {
+            return $x === 2;
+        })->toArray();
 
-    /**
-     * @return int|mixed
-     */
-    private function getMaxNumberWhenNormalPoints()
-    {
-        $groupDice = $this->sibala->dice->groupDice();
-        //[{1,2},{3,2}]
-        ksort($groupDice);
-        //
-        if (count($groupDice) > 2) {
-            $collectGroup = collect($groupDice)->reject(function ($item) {
-                return $item > 1;
-            });
+        $this->ignorePoint = collect(array_keys($pairPoints))->min();
 
-            return last(array_keys($collectGroup->toArray()));
-        } elseif (count($groupDice) == 2) {
-            return last(array_keys($groupDice));
-        }
-        //預設值
-        return 0;
+        $points = collect($this->sibala->dice->getNumber())->reject(function ($item) {
+            return $item === $this->ignorePoint;
+        });
+        return $points;
     }
 
     /**
