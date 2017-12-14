@@ -11,7 +11,7 @@ class Sibala
     public $maxNumber;
     public $state;
     public $output;
-    protected $dice;
+    public $dice;
 
     /**
      * Sibala constructor.
@@ -32,7 +32,8 @@ class Sibala
                 $handler->setResult();
                 break;
             case $this::SAME_POINTS:
-                $this->setResultWhenSameColor();
+                $handler = new SameColorHandler($this);
+                $handler->setResult();
                 break;
             case $this::N_POINTS:
                 $this->setResultWhenNormalPoints();
@@ -54,38 +55,6 @@ class Sibala
         return $stateLookup[$maxCountOfSamePoint];
     }
 
-
-    private function setResultWhenSameColor(): void
-    {
-        $this->state = $this::SAME_POINTS;
-        $this->points = $this->getPointsWhenSameColor();
-        $this->maxNumber = $this->getMaxNumberWhenSameColor();
-        $this->output = $this->getOutputWhenSameColor();
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getPointsWhenSameColor()
-    {
-        return $this->dice->getNumber()[0];
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getMaxNumberWhenSameColor()
-    {
-        return $this->dice->getNumber()[0];
-    }
-
-    /**
-     * @return string
-     */
-    private function getOutputWhenSameColor(): string
-    {
-        return "Same Color";
-    }
 
     private function setResultWhenNormalPoints(): void
     {
