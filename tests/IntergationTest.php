@@ -109,10 +109,9 @@ class IntegrationTest extends TestCase
 
     /**
      * @test
-     * @testdox 有點比有點，點數不同
      * @covers \JoeyDojo\SibalaComparer::compare()
      */
-    public function 有點比有點，點數不同()
+    public function 有點比有點，點數不同_2213_smaller_than_5534()
     {
         $x = new Sibala([2, 2, 1, 3]);
         $y = new Sibala([5, 5, 3, 4]);

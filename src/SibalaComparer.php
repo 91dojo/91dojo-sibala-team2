@@ -14,17 +14,6 @@ class SibalaComparer
      */
     private $y;
 
-    /**
-     * @var array
-     */
-    private $lut = [
-        1 => 6,
-        4 => 5,
-        6 => 4,
-        5 => 3,
-        3 => 2,
-        2 => 1,
-    ];
 
     public function __construct(Sibala $x, Sibala $y)
     {
@@ -32,40 +21,23 @@ class SibalaComparer
         $this->y = $y;
     }
 
-    /**
-     * @return int|mixed
-     */
     public function compare()
     {
-        if ($this->sameColor()) {
-            return $this->lut[$this->x->getMaxNumber()] - $this->lut[$this->y->getMaxNumber()];
-        }
+        if ($this->x->getState() !== $this->y->getState()) {
+            return $this->x->state - $this->y->state;
+        } else {
 
-        if ($this->bothHasPoint()) {
-            $point = $this->x->getPoints() - $this->y->getPoints();
-            if ($point == 0) {
-                return ($this->x->getMaxNumber() - $this->y->getMaxNumber());
-            } else {
-                return $point;
+            if ($this->x->getState() === Sibala::NO_POINTS) {
+                $comparer = new NoPointsComparer();
+                return $comparer->compare($this->x, $this->y);
+            } elseif ($this->x->getState() === Sibala::SAME_POINTS) {
+                $comparer = new SameColorComparer();
+                return $comparer->compare($this->x, $this->y);
             }
+            $comparer = new NormalPointsComparer();
+            return $comparer->compare($this->x, $this->y);
         }
-
-        return $this->x->getState() - $this->y->getState();
     }
 
-    /**
-     * @return bool
-     */
-    private function sameColor() : bool
-    {
-        return ($this->x->getState() === $this->y->getState() && $this->x->getState() == 2);
-    }
 
-    /**
-     * @return bool
-     */
-    private function bothHasPoint() : bool
-    {
-        return ($this->x->getState() === $this->y->getState() && $this->x->getState() == 1);
-    }
 }
