@@ -34,17 +34,14 @@ class Sibala
     {
         $maxCountOfSamePoint = collect($this->dice->groupDice())->max();
 
-        $uniqueCount = $this->dice->getUniqueCount();
+        $stateLookup = [
+            4 => $this::SAME_POINTS,
+            3 => $this::NO_POINTS,
+            2 => $this::N_POINTS,
+            1 => $this::NO_POINTS,
+        ];
 
-        if ($uniqueCount === 4 || $maxCountOfSamePoint === 3) {
-            return $this::NO_POINTS;
-        }
-
-        if ($uniqueCount === 1) {
-            return $this::SAME_POINTS;
-        }
-
-        return $this::N_POINTS;
+        return $stateLookup[$maxCountOfSamePoint];
     }
 
     /**
