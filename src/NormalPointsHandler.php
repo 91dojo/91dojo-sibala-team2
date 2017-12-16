@@ -11,6 +11,9 @@ namespace JoeyDojo;
 
 class NormalPointsHandler
 {
+    private $specialOutput = [
+        3 => "BG"
+    ];
     /**
      * @var Dice
      */
@@ -32,13 +35,7 @@ class NormalPointsHandler
 
         $this->dice->state = Dice::NORMAL_POINTS;
         $this->dice->points = $pointsOfDices->sum();
-        if ($this->dice->points == 3) {
-            $this->dice->output = "BG";
-        } else {
-
-            $defaultOutput = $this->dice->points . " points";
-            $this->dice->output = $defaultOutput;
-        }
+        $this->dice->output = $this->getOutput();
         $this->dice->maxPoint = $pointsOfDices->max();
     }
 
@@ -54,5 +51,40 @@ class NormalPointsHandler
             return $item == $this->ignorePoint;
         });
         return $pointsOfDices;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    private function getOutput()
+    {
+        return $this->isSpecialOutput()
+            ? $this->getSpecialOutput()
+            : $this->defaultOutput();
+    }
+
+    /**
+     * @return bool
+     */
+    private function isSpecialOutput(): bool
+    {
+        return array_key_exists($this->dice->points, $this->specialOutput);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getSpecialOutput()
+    {
+        return $this->specialOutput[$this->dice->points];
+    }
+
+    /**
+     * @return string
+     */
+    private function defaultOutput(): string
+    {
+        $defaultOutput = $this->dice->points . " points";
+        return $defaultOutput;
     }
 }
