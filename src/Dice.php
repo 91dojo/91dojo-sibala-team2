@@ -9,6 +9,8 @@
 namespace JoeyDojo;
 
 
+use function PHPSTORM_META\type;
+
 class Dice
 {
     const NO_POINTS = 0;
@@ -17,18 +19,28 @@ class Dice
     private $maxPoint;
     private $state;
     private $output;
+    private $dices;
 
     /**
      * Dice constructor.
-     * @param array $array
+     * @param $dices
      */
-    public function __construct($array)
+    public function __construct($dices)
     {
+        $this->dices = $dices;
         $this->initializeByState();
     }
 
     private function initializeByState()
     {
+        $maxCount = collect(array_count_values($this->dices))->max();
+        if ($maxCount == 4) {
+            $this->points = 2;
+            $this->output = "same color";
+            $this->maxPoint = 2;
+            $this->state = $this::SAME_COLOR;
+            return;
+        }
         $this->setResultWhenNoPoints();
     }
 
