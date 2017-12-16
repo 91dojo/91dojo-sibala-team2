@@ -12,6 +12,10 @@ namespace JoeyDojo;
 class Dice
 {
     const NO_POINTS = 0;
+    private $points;
+    private $maxPoint;
+    private $state;
+    private $output;
 
     /**
      * Dice constructor.
@@ -19,21 +23,39 @@ class Dice
      */
     public function __construct($array)
     {
+        $this->initializeByState();
+    }
+
+    private function initializeByState()
+    {
+        $this->setResultWhenNoPoints();
+    }
+
+    private function setResultWhenNoPoints()
+    {
+        $this->points = 0;
+        $this->maxPoint = 0;
+        $this->state = $this::NO_POINTS;
+        $this->output = "no points";
     }
 
     public function getPoints()
     {
+        return $this->points;
     }
 
     public function getOutput()
     {
+        return $this->output;
     }
 
     public function getMaxPoint()
     {
+        return $this->maxPoint;
     }
 
     public function getType()
     {
+        return $this->state;
     }
 }
