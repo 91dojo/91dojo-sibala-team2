@@ -30,6 +30,9 @@ class DiceComparer
             return $x->getType() - $y->getType();
         }
 
+        if ($x->getType() == Dice::NORMAL_POINTS) {
+            return $x->getPoints() - $y->getPoints();
+        }
         if ($x->getType() == Dice::SAME_COLOR) {
             $sameColorWeightLookup = [
                 1 => 6,
