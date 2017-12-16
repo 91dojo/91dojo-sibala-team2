@@ -32,7 +32,13 @@ class NormalPointsHandler
 
         $this->dice->state = Dice::NORMAL_POINTS;
         $this->dice->points = $pointsOfDices->sum();
-        $this->dice->output = $this->dice->points . " points";
+        if ($this->dice->points == 3) {
+            $this->dice->output = "BG";
+        } else {
+
+            $defaultOutput = $this->dice->points . " points";
+            $this->dice->output = $defaultOutput;
+        }
         $this->dice->maxPoint = $pointsOfDices->max();
     }
 
