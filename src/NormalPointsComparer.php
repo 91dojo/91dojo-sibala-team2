@@ -21,9 +21,19 @@ class NormalPointsComparer
 
     public function compare($x, $y)
     {
-        if ($x->getPoints() == $y->getPoints()) {
+        if ($this->isSamePoints($x, $y)) {
             return $x->getMaxPoint() - $y->getMaxPoint();
         }
         return $x->getPoints() - $y->getPoints();
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     * @return bool
+     */
+    private function isSamePoints($x, $y): bool
+    {
+        return $x->getPoints() == $y->getPoints();
     }
 }
