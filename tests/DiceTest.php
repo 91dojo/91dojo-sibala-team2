@@ -53,4 +53,15 @@ class DiceTest extends TestCase
         $this->maxPointShouldBe(2);
         $this->typeShouldBe(Dice::SAME_COLOR);
     }
+
+    public function test_normalPoints_1pair_5531()
+    {
+        $this->dice = new Dice([5, 5, 3, 1]);
+        $this->pointsShouldBe(4);
+        $this->outputShouldBe("4 points");
+        $this->maxPointShouldBe(3);
+        $this->typeShouldBe(Dice::NORMAL_POINTS);
+    }
+
+
 }

@@ -15,6 +15,7 @@ class Dice
 {
     const NO_POINTS = 0;
     const SAME_COLOR = 2;
+    const NORMAL_POINTS = 1;
     private $points;
     private $maxPoint;
     private $state;
