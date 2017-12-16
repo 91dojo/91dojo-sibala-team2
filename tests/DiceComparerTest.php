@@ -62,7 +62,24 @@ class DiceComparerTest extends TestCase
         $x = new Dice([4, 4, 5, 2]);
         $y = new Dice([1, 1, 6, 3]);
 
+        $this->firstShouldSmallThanSecond($x, $y);
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     */
+    private function firstShouldSmallThanSecond($x, $y): void
+    {
         $this::assertTrue((new DiceComparer())->compare($x, $y) < 0);
+    }
+
+    public function test_normalPoints_same_point_diff_maxPoint_3354_1163()
+    {
+        $x = new Dice([3, 3, 5, 4]);
+        $y = new Dice([1, 1, 6, 3]);
+
+        $this->firstShouldSmallThanSecond($x, $y);
     }
 
 
