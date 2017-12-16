@@ -11,6 +11,7 @@ namespace Tests;
 use JoeyDojo\Dice;
 use JoeyDojo\DiceComparer;
 use PHPUnit\Framework\TestCase;
+use function Sodium\compare;
 
 class DiceComparerTest extends TestCase
 {
@@ -29,5 +30,13 @@ class DiceComparerTest extends TestCase
     private function firstShouldBeEqualToSecond($x, $y): void
     {
         $this::assertEquals(0, (new DiceComparer())->compare($x, $y));
+    }
+
+    public function test_sameColor_1111_larger_than_4444()
+    {
+        $x = new Dice([1, 1, 1, 1]);
+        $y = new Dice([4, 4, 4, 4]);
+
+        $this::assertTrue((new DiceComparer())->compare($x, $y) > 0);
     }
 }
