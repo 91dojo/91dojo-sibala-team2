@@ -45,15 +45,9 @@ class Dice
             $handler->setResult();
             return;
         }
-        $this->setResultWhenNoPoints();
-    }
 
-    private function setResultWhenNoPoints()
-    {
-        $this->points = 0;
-        $this->maxPoint = 0;
-        $this->state = $this::NO_POINTS;
-        $this->output = "no points";
+        $handler = new NoPointsHandler($this);
+        $handler->setResult();
     }
 
     public function getPoints()
