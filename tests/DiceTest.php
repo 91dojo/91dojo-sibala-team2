@@ -80,6 +80,5 @@ class DiceTest extends TestCase
         $this->maxPointShouldBe(0);
         $this->typeShouldBe(Dice::NO_POINTS);
     }
-
-
 }
+
