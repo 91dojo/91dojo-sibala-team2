@@ -44,18 +44,17 @@ class DiceComparer
     }
 
     /**
-     * @param $x
+     * @param $x Dice
      * @return NoPointsComparer|NormalPointsComparer|SameColorComparer
      */
     private function getComparer($x)
     {
-        if ($x->getType() == Dice::NORMAL_POINTS) {
-            return new NormalPointsComparer();
-        }
-        if ($x->getType() == Dice::SAME_COLOR) {
-            return new SameColorComparer();
-        }
-        return new NoPointsComparer();
+        $comparerLookup = [
+            Dice::NORMAL_POINTS => new NormalPointsComparer(),
+            Dice::NO_POINTS => new NoPointsComparer(),
+            Dice::SAME_COLOR => new SameColorComparer(),
+        ];
+        return $comparerLookup[$x->getType()];
     }
 
 
