@@ -26,6 +26,10 @@ class DiceComparer
      */
     public function compare($x, $y)
     {
+        if ($x->getType() != $y->getType()) {
+            return $x->getType() - $y->getType();
+        }
+
         if ($x->getType() == Dice::SAME_COLOR) {
             $sameColorWeightLookup = [
                 1 => 6,
