@@ -72,6 +72,15 @@ class DiceTest extends TestCase
         $this->typeShouldBe(Dice::NORMAL_POINTS);
     }
 
+    public function test_normalPoints_1332_BG()
+    {
+        $this->dice = new Dice([1, 3, 3, 2]);
+        $this->pointsShouldBe(3);
+        $this->outputShouldBe("BG");
+        $this->maxPointShouldBe(2);
+        $this->typeShouldBe(Dice::NORMAL_POINTS);
+    }
+
     public function test_noPoints_3dicesSamePoint_3353()
     {
         $this->dice = new Dice([3, 3, 5, 3]);
