@@ -35,13 +35,18 @@ class Dice
     {
         $maxCount = collect(array_count_values($this->dices))->max();
         if ($maxCount == 4) {
-            $this->points = 2;
-            $this->output = "same color";
-            $this->maxPoint = 2;
-            $this->state = $this::SAME_COLOR;
+            $this->setResultWhenSameColor();
             return;
         }
         $this->setResultWhenNoPoints();
+    }
+
+    private function setResultWhenSameColor()
+    {
+        $this->points = $this->dices[0];
+        $this->output = "same color";
+        $this->maxPoint = $this->dices[0];
+        $this->state = $this::SAME_COLOR;
     }
 
     private function setResultWhenNoPoints()
