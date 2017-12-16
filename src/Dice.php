@@ -21,6 +21,7 @@ class Dice
     private $state;
     private $output;
     private $dices;
+    private $ignorePoint;
 
     /**
      * Dice constructor.
@@ -38,6 +39,9 @@ class Dice
         if ($maxCount == 4) {
             $this->setResultWhenSameColor();
             return;
+        } else if ($maxCount == 2) {
+            $this->setResultWhenNormalPoints();
+            return;
         }
         $this->setResultWhenNoPoints();
     }
@@ -48,6 +52,33 @@ class Dice
         $this->output = "same color";
         $this->maxPoint = $this->dices[0];
         $this->state = $this::SAME_COLOR;
+    }
+
+    private function setResultWhenNormalPoints()
+    {
+        $pointsOfDices = $this->pointsOfDices();
+
+        $this->state = $this::NORMAL_POINTS;
+        $this->points = $pointsOfDices->sum();
+        $this->output = $this->points . " points";
+        $this->maxPoint = $pointsOfDices->max();
+    }
+
+    /**
+     * @return static
+     */
+    private function pointsOfDices()
+    {
+        $pairPoints = collect(array_count_values($this->dices))->filter(function ($x) {
+            return $x == 2;
+        })->toArray();
+
+        $this->ignorePoint = collect(array_keys($pairPoints))->min();
+
+        $pointsOfDices = collect($this->dices)->reject(function ($item) {
+            return $item == $this->ignorePoint;
+        });
+        return $pointsOfDices;
     }
 
     private function setResultWhenNoPoints()
