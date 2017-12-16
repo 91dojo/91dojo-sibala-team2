@@ -12,7 +12,8 @@ namespace JoeyDojo;
 class NormalPointsHandler
 {
     private $specialOutput = [
-        3 => "BG"
+        3 => "BG",
+        12 => "Sibala",
     ];
     /**
      * @var Dice
