@@ -30,16 +30,7 @@ class DiceComparer
             return $this->compareResultWhenStateIsDifferent($x, $y);
         }
 
-        if ($x->getType() == Dice::NORMAL_POINTS) {
-            $comparer = new NormalPointsComparer();
-            return $comparer->compare($x, $y);
-        }
-        if ($x->getType() == Dice::SAME_COLOR) {
-            $comparer = new SameColorComparer();
-            return $comparer->compare($x, $y);
-        }
-        $comparer = new NoPointsComparer();
-        return $comparer->compare($x, $y);
+        return $this->getComparer($x)->compare($x, $y);
     }
 
     /**
@@ -50,6 +41,21 @@ class DiceComparer
     private function compareResultWhenStateIsDifferent($x, $y)
     {
         return $x->getType() - $y->getType();
+    }
+
+    /**
+     * @param $x
+     * @return NoPointsComparer|NormalPointsComparer|SameColorComparer
+     */
+    private function getComparer($x)
+    {
+        if ($x->getType() == Dice::NORMAL_POINTS) {
+            return new NormalPointsComparer();
+        }
+        if ($x->getType() == Dice::SAME_COLOR) {
+            return new SameColorComparer();
+        }
+        return new NoPointsComparer();
     }
 
 
