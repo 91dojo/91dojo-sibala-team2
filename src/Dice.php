@@ -35,19 +35,21 @@ class Dice
 
     private function initializeByState()
     {
-        $maxCount = collect(array_count_values($this->dices))->max();
-        if ($maxCount == 4) {
-            $handler = new SameColorHandler($this);
-            $handler->setResult();
-            return;
-        } else if ($maxCount == 2) {
-            $handler = new NormalPointsHandler($this);
-            $handler->setResult();
-            return;
-        }
+        $this->getHandler()->setResult();
+    }
 
-        $handler = new NoPointsHandler($this);
-        $handler->setResult();
+    /**
+     * @return NoPointsHandler|NormalPointsHandler|SameColorHandler
+     */
+    private function getHandler()
+    {
+        $handlerLookup = [
+            4 => new SameColorHandler($this),
+            2 => new NormalPointsHandler($this),
+            3 => new NoPointsHandler($this),
+            1 => new NoPointsHandler($this),
+        ];
+        return $handlerLookup[collect(array_count_values($this->dices))->max()];
     }
 
     public function getPoints()
