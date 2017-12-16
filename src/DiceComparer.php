@@ -31,6 +31,9 @@ class DiceComparer
         }
 
         if ($x->getType() == Dice::NORMAL_POINTS) {
+            if ($x->getPoints() == $y->getPoints()) {
+                return $x->getMaxPoint() - $y->getMaxPoint();
+            }
             return $x->getPoints() - $y->getPoints();
         }
         if ($x->getType() == Dice::SAME_COLOR) {
