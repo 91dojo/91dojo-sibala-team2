@@ -35,7 +35,8 @@ class DiceComparer
             return $comparer->compare($x, $y);
         }
         if ($x->getType() == Dice::SAME_COLOR) {
-            return $this->compareResultWhenSameColor($x, $y);
+            $comparer = new SameColorComparer();
+            return $comparer->compare($x, $y);
         }
         return $this->compareResultWhenNoPoints($x, $y);
     }
@@ -50,25 +51,6 @@ class DiceComparer
         return $x->getType() - $y->getType();
     }
 
-
-    /**
-     * @param $x
-     * @param $y
-     * @return mixed
-     */
-    private function compareResultWhenSameColor($x, $y)
-    {
-        $sameColorWeightLookup = [
-            1 => 6,
-            4 => 5,
-            6 => 4,
-            5 => 3,
-            3 => 2,
-            2 => 1,
-        ];
-
-        return $sameColorWeightLookup[$x->getPoints()] - $sameColorWeightLookup[$y->getPoints()];
-    }
 
     /**
      * @param $x Dice
