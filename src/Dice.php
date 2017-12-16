@@ -64,9 +64,6 @@ class Dice
         $this->maxPoint = $pointsOfDices->max();
     }
 
-    /**
-     * @return static
-     */
     private function pointsOfDices()
     {
         $pairPoints = collect(array_count_values($this->dices))->filter(function ($x) {
