@@ -31,12 +31,13 @@ class DiceComparer
         }
 
         if ($x->getType() == Dice::NORMAL_POINTS) {
-            return $this->compareResultWhenNormalPoints($x, $y);
+            $comparer = new NormalPointsComparer();
+            return $comparer->compare($x, $y);
         }
         if ($x->getType() == Dice::SAME_COLOR) {
             return $this->compareResultWhenSameColor($x, $y);
         }
-        return $this->compareResultWhenNoPoints();
+        return $this->compareResultWhenNoPoints($x, $y);
     }
 
     /**
@@ -49,18 +50,6 @@ class DiceComparer
         return $x->getType() - $y->getType();
     }
 
-    /**
-     * @param $x
-     * @param $y
-     * @return mixed
-     */
-    private function compareResultWhenNormalPoints($x, $y)
-    {
-        if ($x->getPoints() == $y->getPoints()) {
-            return $x->getMaxPoint() - $y->getMaxPoint();
-        }
-        return $x->getPoints() - $y->getPoints();
-    }
 
     /**
      * @param $x
@@ -82,9 +71,11 @@ class DiceComparer
     }
 
     /**
+     * @param $x Dice
+     * @param $y Dice
      * @return int
      */
-    private function compareResultWhenNoPoints(): int
+    private function compareResultWhenNoPoints($x, $y): int
     {
         return 0;
     }
