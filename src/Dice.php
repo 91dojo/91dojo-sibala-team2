@@ -41,35 +41,11 @@ class Dice
             $handler->setResult();
             return;
         } else if ($maxCount == 2) {
-            $this->setResultWhenNormalPoints();
+            $handler = new NormalPointsHandler($this);
+            $handler->setResult();
             return;
         }
         $this->setResultWhenNoPoints();
-    }
-
-
-    private function setResultWhenNormalPoints()
-    {
-        $pointsOfDices = $this->pointsOfDices();
-
-        $this->state = $this::NORMAL_POINTS;
-        $this->points = $pointsOfDices->sum();
-        $this->output = $this->points . " points";
-        $this->maxPoint = $pointsOfDices->max();
-    }
-
-    private function pointsOfDices()
-    {
-        $pairPoints = collect(array_count_values($this->dices))->filter(function ($x) {
-            return $x == 2;
-        })->toArray();
-
-        $this->ignorePoint = collect(array_keys($pairPoints))->min();
-
-        $pointsOfDices = collect($this->dices)->reject(function ($item) {
-            return $item == $this->ignorePoint;
-        });
-        return $pointsOfDices;
     }
 
     private function setResultWhenNoPoints()
