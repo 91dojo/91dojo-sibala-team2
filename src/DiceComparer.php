@@ -38,7 +38,8 @@ class DiceComparer
             $comparer = new SameColorComparer();
             return $comparer->compare($x, $y);
         }
-        return $this->compareResultWhenNoPoints($x, $y);
+        $comparer = new NoPointsComparer();
+        return $comparer->compare($x, $y);
     }
 
     /**
@@ -52,13 +53,4 @@ class DiceComparer
     }
 
 
-    /**
-     * @param $x Dice
-     * @param $y Dice
-     * @return int
-     */
-    private function compareResultWhenNoPoints($x, $y): int
-    {
-        return 0;
-    }
 }
