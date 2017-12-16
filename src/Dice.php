@@ -16,11 +16,11 @@ class Dice
     const NO_POINTS = 0;
     const SAME_COLOR = 2;
     const NORMAL_POINTS = 1;
-    private $points;
-    private $maxPoint;
-    private $state;
-    private $output;
-    private $dices;
+    public $points;
+    public $maxPoint;
+    public $state;
+    public $output;
+    public $dices;
     private $ignorePoint;
 
     /**
@@ -37,7 +37,8 @@ class Dice
     {
         $maxCount = collect(array_count_values($this->dices))->max();
         if ($maxCount == 4) {
-            $this->setResultWhenSameColor();
+            $handler = new SameColorHandler($this);
+            $handler->setResult();
             return;
         } else if ($maxCount == 2) {
             $this->setResultWhenNormalPoints();
@@ -46,13 +47,6 @@ class Dice
         $this->setResultWhenNoPoints();
     }
 
-    private function setResultWhenSameColor()
-    {
-        $this->points = $this->dices[0];
-        $this->output = "same color";
-        $this->maxPoint = $this->dices[0];
-        $this->state = $this::SAME_COLOR;
-    }
 
     private function setResultWhenNormalPoints()
     {
