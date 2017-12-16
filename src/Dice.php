@@ -12,6 +12,7 @@ namespace JoeyDojo;
 class Dice
 {
     const NO_POINTS = 0;
+    const SAME_COLOR = 2;
     private $points;
     private $maxPoint;
     private $state;

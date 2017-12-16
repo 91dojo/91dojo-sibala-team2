@@ -44,4 +44,13 @@ class DiceTest extends TestCase
     {
         $this->assertEquals($type, $this->dice->getType());
     }
+
+    public function test_SameColor_2222()
+    {
+        $this->dice = new Dice([2, 2, 2, 2]);
+        $this->pointsShouldBe(2);
+        $this->outputShouldBe("same color");
+        $this->maxPointShouldBe(2);
+        $this->typeShouldBe(Dice::SAME_COLOR);
+    }
 }
