@@ -19,6 +19,11 @@ class DiceComparer
     {
     }
 
+    /**
+     * @param $x Dice
+     * @param $y Dice
+     * @return int
+     */
     public function compare($x, $y)
     {
         return 0;

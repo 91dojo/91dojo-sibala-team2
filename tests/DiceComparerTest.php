@@ -19,8 +19,15 @@ class DiceComparerTest extends TestCase
         $x = new Dice([3, 4, 6, 5]);
         $y = new Dice([4, 3, 4, 4]);
 
-        $comparer = new DiceComparer();
-        $actual = $comparer->compare($x, $y);
-        $this::assertEquals(0, $actual);
+        $this->firstShouldBeEqualToSecond($x, $y);
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     */
+    private function firstShouldBeEqualToSecond($x, $y): void
+    {
+        $this::assertEquals(0, (new DiceComparer())->compare($x, $y));
     }
 }
