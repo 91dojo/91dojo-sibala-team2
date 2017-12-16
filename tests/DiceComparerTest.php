@@ -37,6 +37,23 @@ class DiceComparerTest extends TestCase
         $x = new Dice([1, 1, 1, 1]);
         $y = new Dice([4, 4, 4, 4]);
 
+        $this->firstShouldBeLargerThanSecond($x, $y);
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     */
+    private function firstShouldBeLargerThanSecond($x, $y): void
+    {
         $this::assertTrue((new DiceComparer())->compare($x, $y) > 0);
+    }
+
+    public function test_sameColor_is_larger_than_normalPoints()
+    {
+        $x = new Dice([1, 1, 1, 1]);
+        $y = new Dice([4, 4, 6, 3]);
+
+        $this->firstShouldBeLargerThanSecond($x, $y);
     }
 }
